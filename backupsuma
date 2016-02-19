@@ -1,0 +1,44 @@
+Backup SUSE Manager using RBD/CEPH
+
+- Assume 'backup' Pool is created
+
+- Run Once
+rbd -p backup create sumaBackup --size 140860
+rbd -p backup map sumaBackup
+mkfs.xfs /dev/rbd/backup/sumaBackup
+mount /dev/rbd/backup/sumaBackup /mnt/
+mkdir /mnt/db
+chown postgres:postgres /mnt/db/
+chmod 700 /mnt/db/
+
+smdba backup-hot --enable=on --backup-dir=/mnt/db
+rsync -avP /var/spacewalk /mnt/spacewalk
+
+- Alt 
+
+#!/bin/bash
+FILES="/etc/sysconfig/rhn/
+/etc/rhn/
+/etc/sudoers
+/srv/www/htdocs/pub/
+/root/.gnupg/
+/root/ssl-build/
+/etc/dhcpd.conf
+/srv/tftpboot/
+/var/lib/cobbler/
+/var/lib/rhn/kickstarts/
+/srv/www/cobbler
+/var/lib/named/master
+/etc/named.conf
+/etc/named.conf.include
+/etc/named.d
+/etc/resolv.conf"
+for f in $FILES
+do
+        echo "Copying "$f
+        cp -r $f /mnt/files
+done
+        echo "Performing Database Backup"
+        smdba backup-hot --enable=on --backup-dir=/mnt/db
+        echo "Syncing Repo content"
+        rsync -a /var/spacewalk/ /mnt/spacewalk/
