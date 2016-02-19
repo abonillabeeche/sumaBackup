@@ -8,11 +8,17 @@ ceph osd pool create backup 256
 
 - Run Once to create the volumes and paths
 rbd -p backup create sumaBackup --size 140860
+
 rbd -p backup map sumaBackup
+
 mkfs.xfs /dev/rbd/backup/sumaBackup
+
 mount /dev/rbd/backup/sumaBackup /mnt/
+
 mkdir /mnt/db
+
 chown postgres:postgres /mnt/db/
+
 chmod 700 /mnt/db/
 
 - Copy sumaBackup.sh inside the volume into /mnt
