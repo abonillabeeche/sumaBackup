@@ -1,21 +1,3 @@
-Backup SUSE Manager using RBD/CEPH
-
-- Assume 'backup' Pool is created
-
-- Run Once
-rbd -p backup create sumaBackup --size 140860
-rbd -p backup map sumaBackup
-mkfs.xfs /dev/rbd/backup/sumaBackup
-mount /dev/rbd/backup/sumaBackup /mnt/
-mkdir /mnt/db
-chown postgres:postgres /mnt/db/
-chmod 700 /mnt/db/
-
-smdba backup-hot --enable=on --backup-dir=/mnt/db
-rsync -avP /var/spacewalk /mnt/spacewalk
-
-- Alt 
-
 #!/bin/bash
 FILES="/etc/sysconfig/rhn/
 /etc/rhn/
