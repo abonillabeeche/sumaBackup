@@ -20,7 +20,7 @@ do
         echo "Copying "$f
         cp -r $f /mnt/files
 done
-        echo "Performing Database Backup"
+	echo -e "\e[32mPerforming Database Backup\e[0m"        
         smdba backup-hot --enable=on --backup-dir=/mnt/db
-        echo "Syncing Repo content"
+        echo -e "\e[32mSyncing Repo content\e[0m"
         rsync -a /var/spacewalk/ /mnt/spacewalk/
