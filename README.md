@@ -1,6 +1,6 @@
-## SUSE Manager backup with SUSE Enterprise Storage
+# SUSE Manager backup with SUSE Enterprise Storage
 
-#Backup SUSE Manager using RBD/CEPH - Run ONCE
+##Backup SUSE Manager using RBD/CEPH - Run ONCE
 
 - Create the backup pool (modify PGs as needed)
 
