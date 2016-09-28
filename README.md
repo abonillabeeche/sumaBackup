@@ -1,33 +1,35 @@
-# SUSE Manager backup with SUSE Enterprise Storage
+## SUSE Manager backup with SUSE Enterprise Storage
 
-Backup SUSE Manager using RBD/CEPH - Run ONCE
+#Backup SUSE Manager using RBD/CEPH - Run ONCE
 
 - Create the backup pool (modify PGs as needed)
 
-ceph osd pool create backup 256
+$ ceph osd pool create backup 256
 
 - Create the volumes, directory and required permissions
 
-rbd -p backup create sumaBackup --size 140860
+$ rbd -p backup create sumaBackup --size 140860
 
-rbd -p backup map sumaBackup
+$ rbd -p backup map sumaBackup
 
-mkfs.xfs /dev/rbd/backup/sumaBackup
+$ mkfs.xfs /dev/rbd/backup/sumaBackup
 
-mount /dev/rbd/backup/sumaBackup /mnt/
+$ mount /dev/rbd/backup/sumaBackup /mnt/
 
-mkdir /mnt/db
+$ mkdir /mnt/db
 
-chown postgres:postgres /mnt/db/
+$ chown postgres:postgres /mnt/db/
 
-chmod 700 /mnt/db/
+$ chmod 700 /mnt/db/
 
-- Copy sumaBackup.sh inside the volume into /mnt - so nothing will be performed if rbd map and mount were not successful.  Then:
+- Copy sumaBackup.sh inside the mapped and mounted volume (into /mnt as performed above) - so nothing will be performed if rbd map and mount were not successful.
 
-umount /mnt
+$ cp sumaBackup.sh /mnt/
 
-rbd unmap /dev/rbd/backup/sumaBackup
+$ umount /mnt
 
-rbd showmapped
+$ rbd unmap /dev/rbd/backup/sumaBackup
+
+$ rbd showmapped
 
 - Create a cron entry to execute the backup job
