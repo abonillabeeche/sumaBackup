@@ -34,4 +34,6 @@ $ rbd unmap /dev/rbd/backup/sumaBackup
 
 $ rbd showmapped
 
+- Modify or remove in "job-sumaBackup.sh" the network entries to bring up/down the Storage network interface
+
 - Create a cron entry to execute the backup job
