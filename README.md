@@ -1,12 +1,11 @@
-# ses
-A few scripts for SUSE Enterprise Storage/CEPH
+# SUSE Manager backup with SUSE Enterprise Storage
 
-Backup SUSE Manager using RBD/CEPH
+Backup SUSE Manager using RBD/CEPH - Run ONCE
 
 - Create the backup pool (modify PGs as needed)
 ceph osd pool create backup 256
 
-- Run Once to create the volumes and paths
+- Create the volumes and directory and required permissions
 rbd -p backup create sumaBackup --size 140860
 
 rbd -p backup map sumaBackup
@@ -21,6 +20,12 @@ chown postgres:postgres /mnt/db/
 
 chmod 700 /mnt/db/
 
-- Copy sumaBackup.sh inside the volume into /mnt
+umount /mnt
+
+rbd unmap /dev/rbd/backup/sumaBackup
+
+rbd showmapped
+
+- Copy sumaBackup.sh inside the volume into /mnt - nothing will be performed if rbd map and mount were not successful.
 
 - Create a cron entry to execute the backup job
