@@ -3,9 +3,11 @@
 Backup SUSE Manager using RBD/CEPH - Run ONCE
 
 - Create the backup pool (modify PGs as needed)
+
 ceph osd pool create backup 256
 
 - Create the volumes and directory and required permissions
+
 rbd -p backup create sumaBackup --size 140860
 
 rbd -p backup map sumaBackup
