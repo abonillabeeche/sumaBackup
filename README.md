@@ -1,5 +1,7 @@
 # SUSE Manager backup with SUSE Enterprise Storage
 
+The script start the Network interface in the Storage network and maps the block device - Then it performs a backup of the content of the SUSE Manager server, as well as a database backup.
+
 ##Backup SUSE Manager using RBD/CEPH - run ONCE
 
 - Create the backup pool (modify PGs as needed)
